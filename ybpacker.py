@@ -40,7 +40,7 @@ def main(argv):
         positions_speed.append(boat + boat_speed)
 
     now = datetime.utcnow()
-    filename = "ybpacker-" + now.strftime('%m-%d_%H%M') + ".zlib"
+    filename = race + '-' + now.strftime('%m-%d_%H%M') + '.zlib'
 
     p = pickle.dumps(positions_speed)
     pz = zlib.compress(p)
