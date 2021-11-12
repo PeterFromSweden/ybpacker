@@ -14,8 +14,8 @@ def rename(file_name):
     new_file_name = tmp[0] + '-' + str(timestamp) + '.' + tmp[1]
     try:
         os.rename(file_name, new_file_name)
-    except Exception as err:
-        print("Warning " + err)
+    except FileExistsError:
+        print("Removing " + file_name)
         os.remove(file_name)
         pass
 
@@ -40,16 +40,17 @@ def read_all():
 
 
 def read_boats():
-    with open('boatids.txt', 'r') as f:
-        boats = f.read().split('\n')
-    return [boat.split(',') for boat in boats if len(boat)]
+    boats = np.genfromtxt('boatids.txt', delimiter=',', dtype=None, encoding='utf8')
+    boats = np.sort(boats, order=['f1'])
+    return [list(boat) for boat in boats]
 
 
 def write_gpx(data):
     gpx = gpxpy.gpx.GPX()
     boats = read_boats()
+
     for boat in boats:
-        boat_id = int(boat[0])
+        boat_id = boat[0]
         boat_name = boat[1]
 
         boat_data = data[np.where(data[:, 0] == boat_id)]
@@ -59,13 +60,14 @@ def write_gpx(data):
         gpx_track.name = boat_name
         gpx.tracks.append(gpx_track)
 
+        gpx_segment = gpxpy.gpx.GPXTrackSegment()
+        gpx_track.segments.append(gpx_segment)
+
         for position in boat_data:
             lat = position[1]
             lon = position[2]
             time_str = str(int(position[3]))
             time_stamp = datetime.strptime(time_str, "%y%m%d%H%M")  # 2111121200
-            gpx_segment = gpxpy.gpx.GPXTrackSegment()
-            gpx_track.segments.append(gpx_segment)
             gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(lat, lon, 0.0, time=time_stamp))
 
     with open('output.gpx', 'w') as f:
@@ -78,6 +80,8 @@ def main():
 
     data = read_all()
     write_gpx(data)
+    # print(read_boats())
+
 
 
 if __name__ == "__main__":
