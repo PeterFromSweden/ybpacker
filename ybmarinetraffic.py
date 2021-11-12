@@ -29,7 +29,7 @@ def main():
     lon = str(lat_lon_parser.parse(boat[5]))
     cog = boat[6]
     sog = boat[7]
-    secrets['To'] = 'report@marinetraffic.com'
+    secrets['To'] = ybmarinetraffic['To']
     message = "MMSI=" + ybmarinetraffic['MMSI'] + '\n'
     message = message + "LAT=" + lat + '\n'
     message = message + "LON=" + lon + '\n'
