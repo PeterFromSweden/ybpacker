@@ -8,11 +8,11 @@ from send_mail import send_mail
 
 
 def download(url):
-    resonse = requests.get(url)
-    if resonse.status_code != 200:
+    response = requests.get(url)
+    if response.status_code != 200:
         print('unable to download ' + url)
         raise ValueError
-    return resonse.text
+    return response.text
 
 
 def main(argv):
@@ -47,7 +47,14 @@ def main(argv):
     with open(filename, 'wb') as f:
         f.write(pz)
 
-    send_mail(secrets, "Auto", "", [filename])
+    with open(filename.replace('.zlib','.txt'), 'wt') as f:
+        f.write(resp2)
+
+    positionz = zlib.compress(resp2.encode('utf8').strip())
+    with open(filename.replace('.zlib','.ztxt'), 'wb') as f:
+        f.write(positionz)
+
+    # send_mail(secrets, "Auto", "", [filename])
 
 
 if __name__ == "__main__":
