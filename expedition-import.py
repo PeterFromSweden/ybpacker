@@ -1,5 +1,6 @@
 import datetime
 import glob
+import json
 import os
 import gpxpy
 import numpy as np
@@ -49,6 +50,15 @@ def write_gpx(data):
     gpx = gpxpy.gpx.GPX()
     boats = read_boats()
 
+    gpx.name = 'ARC'
+    gpx_bounds = gpxpy.gpx.GPXBounds()
+    gpx_bounds.max_latitude = '30'
+    gpx_bounds.min_latitude = '10'
+    gpx_bounds.max_longitude = '-10'
+    gpx_bounds.min_longitude = '-65'
+    gpx.bounds = gpx_bounds
+    gpx.time = datetime.utcnow()
+
     for boat in boats:
         boat_id = boat[0]
         boat_name = boat[1]
@@ -69,8 +79,9 @@ def write_gpx(data):
             time_str = str(int(position[3]))
             time_stamp = datetime.strptime(time_str, "%y%m%d%H%M")  # 2111121200
             gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(lat, lon, 0.0, time=time_stamp))
+            # gpx_segment.points.append(gpxpy.gpx.GPXTrackPoint(lat, lon, 0.0, time=time_stamp, name=boat_name))
 
-    with open('output.gpx', 'w') as f:
+    with open(expedition['gpx-filename'], 'w') as f:
         f.write(gpx.to_xml())
 
 
@@ -85,4 +96,7 @@ def main():
 
 
 if __name__ == "__main__":
+    with open('expedition.json', 'r') as f:
+        expedition = json.load(f)
+    os.chdir(expedition['folder'])
     main()
