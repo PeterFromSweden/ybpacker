@@ -94,9 +94,9 @@ def main():
     # print(read_boats())
 
 
-
 if __name__ == "__main__":
     with open('expedition.json', 'r') as f:
         expedition = json.load(f)
     os.chdir(expedition['folder'])
     main()
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Filter>
+	<Name>Expedition</Name>
+	<Conditions>
+		<And>
+			<Condition Not="0" Field="mail.Subject" Op="7" Value="Your data" />
+		</And>
+	</Conditions>
+	<Actions>
+		<Action Type="14" Arg1="&quot;C:\Users\Peter\Downloads&quot;,&quot;*&quot;" />
+		<Action Type="0" Arg1="/XGate Mail/Inbox/FilterProcessed" />
+		<Action Type="5" Arg1="c:\Users\Peter\Downloads\filteraction.cmd" />
+	</Actions>
+</Filter>

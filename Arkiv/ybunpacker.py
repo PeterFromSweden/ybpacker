@@ -26,7 +26,7 @@ def process_zlib(file_name):
         json.dump(positions_speed,f)
 
 def load_gpx():
-    with open('TrackSpeed.gpx', 'r') as f:
+    with open('../TrackSpeed.gpx', 'r') as f:
         gpx = gpxpy.parse(f)
     print(gpx)
     # print('GPX:', gpx.to_xml())
@@ -49,13 +49,13 @@ def load_gpx():
         gpxpy.gpx.GPXTrackPoint(2.2235, 5.3235, time=datetime(2009, 10, 17, 20, 37, 26), name='2.1kn 180'))
     gpx_segment.points.append(
         gpxpy.gpx.GPXTrackPoint(2.4236, 5.4236, time=datetime(2009, 10, 17, 22, 37, 26), name='2.1kn 180'))
-    with open('output.gpx', 'w') as f:
+    with open('../output.gpx', 'w') as f:
         f.write(gpx.to_xml())
 
 
 if __name__ == "__main__":
     try:
-        with open('pos_speed_list.p', 'rb') as f:
+        with open('../pos_speed_list.p', 'rb') as f:
             pos_speed_list = pickle.load(f)
     except:
         pos_speed_list = []
@@ -67,7 +67,7 @@ if __name__ == "__main__":
         if pos_speed not in pos_speed_list_new:
             pos_speed_list.append(pos_speed_new)
 
-    with open('pos_speed_list.p', 'wb') as f:
+    with open('../pos_speed_list.p', 'wb') as f:
         pickle.dump(pos_speed_list, f)
 
     # load_gpx()
