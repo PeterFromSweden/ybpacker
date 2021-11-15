@@ -38,6 +38,7 @@ def main():
     message = message + "TIMESTAMP=" + time_stamp + '\n'
     print(message)
     send_mail(secrets, 'Report', message)
+    print("Mail sent to: " + secrets['to'])
 
 if __name__ == "__main__":
     with open('secrets.json', 'r') as f:
