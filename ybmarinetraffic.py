@@ -18,18 +18,24 @@ def get_boat():
     response = download("https://yb.tl/l/" + ybmarinetraffic['race'] + "?class=allboats")
     resp2 = "\n".join(response.split("\n")[4:])  # Skip first 4 lines
     leaderboard = [item.split(",") for item in resp2.split("\n") if len(item)]
-    return [boat for boat in leaderboard if boat[1] == ybmarinetraffic['boatname']][0]
+    boat = [boat for boat in leaderboard if boat[1] == ybmarinetraffic['boatname']]
+    if len(boat):
+        boat = boat[0]
+    return boat
 
 
 def main():
     boat = get_boat()
+    if len(boat) == 0:
+        print('Boat ' + ybmarinetraffic['boatname'] + " is not found in " + ybmarinetraffic['race'])
+        return
     time_stamp = datetime.strptime(boat[3], "%d/%m/%Y %H:%M:%S")  # 12/11/2021 16:00:05
     time_stamp = time_stamp.strftime("%Y-%m-%d %H:%M:%S")  # 2021-10-24 19:15:03
     lat = str(lat_lon_parser.parse(boat[4]))
     lon = str(lat_lon_parser.parse(boat[5]))
     cog = boat[6]
     sog = boat[7]
-    secrets['To'] = ybmarinetraffic['To']
+    secrets['to'] = ybmarinetraffic['To']
     message = "MMSI=" + ybmarinetraffic['MMSI'] + '\n'
     message = message + "LAT=" + lat + '\n'
     message = message + "LON=" + lon + '\n'
