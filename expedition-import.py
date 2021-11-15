@@ -41,7 +41,7 @@ def read_all():
 
 
 def read_boats():
-    boats = np.genfromtxt('boatids.txt', delimiter=',', dtype=None, encoding='utf8')
+    boats = np.genfromtxt('boat-ids.txt', delimiter=',', dtype=None, encoding='utf8')
     boats = np.sort(boats, order=['f1'])
     return [list(boat) for boat in boats]
 
